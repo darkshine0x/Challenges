@@ -1,0 +1,1 @@
+java -cp lib/* package ch.jbaumann.fincalc.cli.FinanceCalculatorCLI;
