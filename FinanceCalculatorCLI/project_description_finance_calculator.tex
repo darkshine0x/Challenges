@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, total={6.5in, 10in}]{geometry}
+\usepackage{amsmath}
+\usepackage{fancyvrb}
+
+\title{Project Finance Calculator}
+\author{Jan Baumann }
+\date{February 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Ziel}
+Das Ziel dieses Projekts ist, die Konzepte aus PRG etwas aufzufrischen und gleichzeitig das Thema Modularisierung anzuschneiden. Die Aufgaben sind zum Teil nicht ganz trivial und erfordern, dass man auch mal selbst eine Lösung erarbeitet bzw. diese recherchiert. Das Suchen bzw. Finden von Informationen ist sehr wichtig (nicht nur in der Softwareentwicklung). Die Aufgaben sind ganz bewusst schwierig gewählt, denn schliesslich geht es darum etwas zu lernen und das geht am besten, wenn man eine Lösung wirklich selber erarbeiten muss und nicht einfach alles schon fixfertig vorgegeben bekommt. 
+
+\section{Aufgabenbeschreibung}
+Es geht darum einen Rechner zu implementieren, der Finanzkennzahlen ausrechnet. Das Projekt soll dabei aus zwei Modulen bestehen.
+
+Wie die Kennzahlen berechnet werden, wird in der nächsten Section beschrieben.
+
+\subsection{Rechnermodul}
+Dieses Modul beinhaltet die Funktionalitäten des Rechners. Einerseits muss ein Interface vorhanden sein, dass die nachfolgenden Methoden vorgibt und eine Klasse, die das Interface implementiert. Wie man die Kennzahlen rechnet, ist im nächsten Kapitel beschrieben.
+
+\begin{Verbatim}[frame=single]
+double ronoa(final double netOperatingAssets, final double ebit, 
+    final double taxOnEarnings);
+
+double wacc(final double costOfDebt, final double taxOnEarnings, final double debt, 
+    final double equityCapital, final double costOfEquityCapital);
+
+double irr(final double[] freeCashFlows);
+\end{Verbatim}
+
+\subsubsection{RONOA}
+Diese Methode rechnet den Return On Net Operating Assets (RONOA). Es handelt sich dabei um eine Kennzahl, die die Rendite auf dem Gesamtkapital einer Bilanz beschreibt. Die Formel lautet folgendermassen:
+\[\frac{\textrm{EBIT}\cdot(1 - \textrm{Gewinnsteuersatz})}{\textrm{Net Operating Assets}}\]
+
+\subsubsection{WACC}
+WACC oder Weighted Average Cost of Capital entspricht dem Gesamtkapitalkostensatz und ist der gewichtete Durchschnitt der Eigenkapital- und Fremdkapitalkostensätze. Für die Gewichtung kommt das Eigenkapital und das verzinsliche Fremdkapital zum Zug. Die Formel lautet folgendermassen:
+
+\begin{align*}
+\textrm{WACC}&=k_{\textrm{FK}}\cdot(1 - \textrm{Gewinnsteuersatz})\cdot\frac{\textrm{Fremdkapital}}{\textrm{Gesamtkapital}}+k_{\textrm{EK}}\cdot\frac{\textrm{Eigenkapital}}{\textrm{Gesamtkapital}}\\
+\textrm{Gesamtkapital}&=\textrm{Eigenkapital}+\textrm{Verzinsliches Fremdkapital}\\
+k_\textrm{FK}&=\textrm{Fremdkapitalkostensatz}\\
+k_\textrm{EK}&=\textrm{Eigenkapitalkostensatz}
+\end{align*}
+\subsubsection{IRR}
+IRR (Internal Rate of Return) gibt den internen Zinssatz eines Projekts bzw. bestimmt, mit welchem Zinssatz der Barwert des Projekts 0 ist.  an und wird unter anderem verwendet um zu prüfen, ob sich ein Projekt lohnt. Der Barwert eines Projekts wird mit der folgenden Formel berechnet:
+\[\sum_{t=0}^{T} \frac{\textrm{Free Cashflow Entity}_t}{(1+R)^t}\]
+Jetzt geht es darum, $R$ zu ermitteln. Dies geht jetzt nicht ganz so einfach. Man kann diese Formel nicht einfach nach R auflösen. Man muss hier versuchen, $R$ mittels Annäherung (Trial and Error) zu ermitteln. Dafür verwendet man ein Interpolationsverfahren. Dieses wiederholt man so lange bis das Resultat der Gleichung nahe genug bei 0 ist.
+
+\subsection{Konsolenmodul}
+Dieses Modul beinhaltet das User Interface. In dem Fall soll über die Command Line der Rechner zur Verfügung stehen. Das bedeutet, dass dieses Modul auf die Funktionalitäten des Rechnermoduls zugreift (über das Interface).
+
+\end{document}
