@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, total={6.5in, 10in}]{geometry}
+\usepackage{amsmath}
+\usepackage{fancyvrb}
+
+\title{Project Trading Platform}
+\author{Jan Baumann }
+\date{March 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Ziel}
+Dieses Projekt hat zum Ziel, Konzepte der Objektorientierung zu festigen. Für die Lösung der nachstehenden Aufgabe werden diverse Klassen und Interfaces benötigt. Denkt insbesondere an die beiden Begriffe Kohäsion und Koppelung.
+
+\section{Aufgabenbeschreibung}
+Es geht darum, eine eigene Börse zu implementieren, an der Aktien gehandelt werden können, bzw. Code für das nachfolgend beschriebene Verhalten zu schreiben.
+
+\subsection{Wie funktioniert eine Börse?}
+Es gibt unterschiedliche Arten von Börsen, die ihre eigenen Regeln haben. Wir beschränken uns aber auf das Grundprinzip. Es gibt pro gelisteter Aktie ein \textbf{Orderbook}. In diesem Orderbook werden alle Angebote (Verkaufseite) und alle Nachfragen (Kaufseite) platziert. Passen diese zusammen, so kommt es zu einem Matching und der Handel wird ausgeführt. Beispiel:
+\begin{itemize}
+    \item Person A will 10 Aktien Novartis für CHF 100.00 pro Aktie kaufen (sog. limitierter Auftrag).
+    \item Person B will 20 Stück für CHF 101.00 kaufen.
+    \item Person C will einfach 30 Stück verkaufen, einfach zum bestmöglichen Preis.
+    \item Person D will 5 Stück für CHF 103.00 verkaufen.
+    \item Person E verkauft 10 Stück ebenfalls bestens (bestmöglicher Preis).
+\end{itemize}
+Das Orderbuch sieht nun folgendermassen aus:
+
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Sell} & \textbf{Price} & \textbf{Buy} \\
+        \hline
+         5 & 103.00 & \\
+         30+10 & bestens & \\
+         & 101.00 & 20 \\
+         & 100.00 & 10 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Wie läuft nun das Matching ab? In erster Priorität wird auf den Preis geschaut und in zweiter Priorität auf die Zeit. Für unser Beispiel gibt es folgende Matches:
+\begin{itemize}
+    \item 20 Stück von Person C wird mit den 20 Stück von Person B zu CHF 101.00 gematcht.
+    \item Die restlichen 10 Stück von C werden mit den 10 Stück von A zu CHF 100.00 gematcht.
+\end{itemize}
+Danach bleiben noch die beiden Verkaufsangebote von D und E im Orderbuch, weil es nun keine Nachfrage (keine Kaufaufträge) mehr gibt.
+
+\subsection{Attribute einer Aktie}
+Eine gelistete Aktie hat viele Attribute. Wir beschränken uns hier aber auf die folgenden:
+\begin{itemize}
+    \item Name: Name der Firma
+    \item Ticker-Symbol: Kurzzeichen, wäre bei Novartis z. B. NOVN oder UBS hat UBSG
+    \item ISIN: International Securities Identification Number, bei Roche beispielsweise CH0012032048
+    \item Aktueller Marktwert: Letztbezahlter Preis an der Börse (\underline{Aktien haben verschiedene Währungen})
+\end{itemize}
+
+\end{document}
